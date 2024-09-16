@@ -5,8 +5,8 @@ import ThemeToggle from "./ThemeToggle";
 const SideebarHeader = () => {
   return (
     <div className="flex items-center mb-4 gap-4 px-4">
-      <SiOpenaigym className="w-10 h-10 text-accent" />
-      <h2 className="text-xl font-extrabold text-accent">Next GPT</h2>
+      <SiOpenaigym className="w-10 h-10 text-primary" />
+      <h2 className="text-xl font-extrabold text-primary">Next GPT</h2>
       <ThemeToggle />
     </div>
   );

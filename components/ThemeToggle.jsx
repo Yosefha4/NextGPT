@@ -4,20 +4,20 @@ import { useState } from "react";
 import { BsSun, BsMoonFill } from "react-icons/bs";
 
 const themes = {
-  dark: "dark",
-  cupcake: "cupcake",
+  winter: "winter",
+  dracula: "dracula",
 };
 const ThemeToggle = () => {
-  const [theme, setTheme] = useState(themes.cupcake);
+  const [theme, setTheme] = useState(themes.winter);
 
   const toglleTheme = () => {
-    const newTheme = theme === themes.cupcake ? themes.dark : themes.cupcake;
+    const newTheme = theme === themes.winter ? themes.dracula : themes.winter;
     document.documentElement.setAttribute("data-theme", newTheme);
     setTheme(newTheme);
   };
   return (
     <button className="btn btn-sm btn-outline" onClick={toglleTheme}>
-      {theme === "cupcake" ? <BsSun className="h-4 w-4 " /> : <BsMoonFill className="h-4 w-4" />}
+      {theme === "winter" ? <BsMoonFill className="h-4 w-4" /> : <BsSun className="h-4 w-4" />}
     </button>
   );
 };
