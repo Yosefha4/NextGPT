@@ -4,7 +4,7 @@ const links = [
   { href: "/chat", label: "chat" },
   { href: "/tours", label: "tours" },
   { href: "/tours/new-tour", label: "new tour" },
-  { href: "/profle", label: "profle" },
+  { href: "/profile", label: "profile" },
 ];
 const NavLinks = () => {
   return (
