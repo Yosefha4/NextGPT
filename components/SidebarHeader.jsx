@@ -2,7 +2,7 @@ import React from "react";
 import { SiOpenaigym } from "react-icons/si";
 import ThemeToggle from "./ThemeToggle";
 
-const SideebarHeader = () => {
+const SidebarHeader = () => {
   return (
     <div className="flex items-center mb-4 gap-4 px-4">
       <SiOpenaigym className="w-10 h-10 text-primary" />
@@ -12,4 +12,4 @@ const SideebarHeader = () => {
   );
 };
 
-export default SideebarHeader;
+export default SidebarHeader;
