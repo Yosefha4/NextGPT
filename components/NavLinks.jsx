@@ -18,7 +18,6 @@ const NavLinks = () => {
           </li>
         );
       })}
-      {/* <Link /> */}
     </ul>
   );
 };

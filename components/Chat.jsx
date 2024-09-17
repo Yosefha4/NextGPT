@@ -11,11 +11,9 @@ const Chat = () => {
   const { mutate } = useMutation({
     mutationFn: (message) => generateChatResponse(message),
   });
-
   const handleSubmit = (e) => {
     e.preventDefault();
     mutate(textInput);
-    console.log(textInput);
   };
 
   return (
