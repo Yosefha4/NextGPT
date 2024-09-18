@@ -38,9 +38,9 @@ const Chat = () => {
     <div className="min-h-[calc(100vh-6rem)] grid grid-rows-[1fr,auto]">
       <div>
         <h2 className="text-5xl">messages</h2>
-        <div className="mt-4 border-b border-dashed border-gray-300 py-2">
+        <div className="mt-4 py-2">
           {messages?.map((msg, index) => (
-            <div key={index} className={`message ${msg.role} mt-2 `}>
+            <div key={index} className={`message ${msg.role ? " border-b border-dashed border-gray-300" : ""} mt-2 `}>
               <strong>{msg.role === "USER" ? "You: " : "Bot: "}</strong>
               {msg.message}
             </div>
