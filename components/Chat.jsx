@@ -1,6 +1,6 @@
 "use client";
 
-import { generateChatResponse } from "@/utils/action";
+import { generateOpenAIChatResponse, generateHuggingChatResponse, generateCohereChatResponse } from "@/utils/action";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -8,18 +8,44 @@ const Chat = () => {
   const [textInput, setTextInput] = useState("");
   const [messages, setMessages] = useState([]);
 
+  // const { mutate } = useMutation({
+  //   mutationFn: (message) => generateCohereChatResponse(message),
+  // });
+
   const { mutate } = useMutation({
-    mutationFn: (message) => generateChatResponse(message),
+    mutationFn: async (message) => {
+      const response = await generateCohereChatResponse(message);
+      console.log(response);
+      return response; // Return the response for use in the success callback
+    },
+    onSuccess: (response) => {
+      setMessages((prev) => [
+        ...prev,
+        { role: "USER", message: textInput },
+        { role: "CHATBOT", message: response }, // Ensure to use the response text
+      ]);
+      setTextInput("");
+    },
   });
+
   const handleSubmit = (e) => {
     e.preventDefault();
     mutate(textInput);
+    console.log(textInput);
   };
 
   return (
     <div className="min-h-[calc(100vh-6rem)] grid grid-rows-[1fr,auto]">
       <div>
         <h2 className="text-5xl">messages</h2>
+        <div className="mt-4 border-b border-dashed border-gray-300 py-2">
+          {messages?.map((msg, index) => (
+            <div key={index} className={`message ${msg.role} mt-2 `}>
+              <strong>{msg.role === "USER" ? "You: " : "Bot: "}</strong>
+              {msg.message}
+            </div>
+          ))}
+        </div>
       </div>
       <form onSubmit={handleSubmit} className="max-w-4xl pt-12">
         <div className="join w-full">
