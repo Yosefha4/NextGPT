@@ -1,55 +1,61 @@
 "use server";
 
-import axios from "axios";
 import { CohereClient } from "cohere-ai";
-import OpenAI from "openai";
+import { HfInference } from "@huggingface/inference";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const HF_TOKEN = "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";
 
-export const generateOpenAIChatResponse = async (chatMsg) => {
-  const response = await openai.chat.completions.create({
-    messages: [
-      { role: "system", content: "You are a helpful assistant " },
-      { role: "user", content: chatMsg },
-    ],
-    model: "gpt-3.5-turbo",
-    temperature: 0,
-  });
-  console.log(response.choices[0].message);
-  console.log(response);
+const inference = new HfInference(HF_TOKEN);
 
-  return "Chat temp response 123";
+
+// Generate Image
+const adjustToNearestMultipleOf8 = (value) => {
+  return Math.round(value / 8) * 8;
 };
 
-export const generateHuggingChatResponse = async (chatMsg) => {
+export const generateImage = async ({
+  description,
+  model,
+  height,
+  width,
+  guidanceScale,
+}) => {
   try {
-    const response = await axios.post(
-      "https://api-inference.huggingface.co/models/EleutherAI/gpt-j-6B",
-      {
-        inputs: chatMsg,
+    const adjustedHeight = adjustToNearestMultipleOf8(height);
+    const adjustedWidth = adjustToNearestMultipleOf8(width);
+    
+    console.log({ description, model, adjustedHeight, adjustedWidth, guidanceScale });
+    const response = await inference.textToImage({
+      model: model, // animation
+      // model: 'runwayml/stable-diffusion-v1-5',
+      inputs: description,
+      parameters: {
+        negative_prompt: "blurry",
+        num_inference_steps: 50,
+        guidance_scale: guidanceScale,
+        width: adjustedWidth,
+        height: adjustedHeight,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.HUGGING_FACE_API_KEY}`,
-        },
-      }
-    );
+    });
     console.log(response);
-    const generatedText = await response.data[0].generated_text;
-    console.log(generatedText);
-    return "hugging text test";
+    // Convert Blob to ArrayBuffer, then to base64
+    const arrayBuffer = await response.arrayBuffer();
+    const base64Image = Buffer.from(arrayBuffer).toString("base64");
+
+    // Return the base64 image with proper data URL
+    return `data:image/jpeg;base64,${base64Image}`;
   } catch (error) {
-    console.log(error.message || "Error generating chat response");
+    console.error("Error generating image:", error);
+    return null; // Handle the error appropriately
   }
 };
 
+// Generate text (Chat)
 export const generateCohereChatResponse = async (chatMsg) => {
   console.log(chatMsg);
   try {
     const cohere = new CohereClient({
-      token: process.env.COHERE_API_KEY,
+      token: "LxwSK2MvDM6o0aLnZH73VIFdcZmD70j5ieVQfImD",
     });
 
     const chatRes = await cohere.chat({
@@ -62,16 +68,4 @@ export const generateCohereChatResponse = async (chatMsg) => {
     console.log(error);
   }
 };
-// export const generateCohereChatResponse = async (chatMsg) => {
-//   const response = await cohere.chat.generate({
-//     messages: [
-//       { role: "system", content: "You are a helpful assistant" },
-//       { role: "user", content: chatMsg },
-//     ],
-//     model: "command-xlarge-2022-12",
-//     temperature: 0,
-//   });
-//   console.log(response);
 
-//   return response.generations[0].text;
-// };

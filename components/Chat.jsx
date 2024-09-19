@@ -1,12 +1,15 @@
 "use client";
 
-import { generateOpenAIChatResponse, generateHuggingChatResponse, generateCohereChatResponse } from "@/utils/action";
+import { generateCohereChatResponse } from "@/utils/action";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
 
 const Chat = () => {
   const [textInput, setTextInput] = useState("");
   const [messages, setMessages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); 
 
   // const { mutate } = useMutation({
   //   mutationFn: (message) => generateCohereChatResponse(message),
@@ -15,18 +18,35 @@ const Chat = () => {
   const { mutate } = useMutation({
     mutationFn: async (message) => {
       const response = await generateCohereChatResponse(message);
-      console.log(response);
-      return response; // Return the response for use in the success callback
+      return response;
     },
-    onSuccess: (response) => {
+    onMutate: () => {
+      // Add the user's message and a loading placeholder for the AI's response
       setMessages((prev) => [
         ...prev,
-        { role: "USER", message: textInput },
-        { role: "CHATBOT", message: response }, // Ensure to use the response text
+        { role: 'USER', message: textInput },
+        { role: 'CHATBOT', message: <AiOutlineLoading3Quarters />}, // Placeholder for loading spinner
       ]);
-      setTextInput("");
+      setTextInput(''); // Clear the input field after the message is sent
+    },
+    onSuccess: (response) => {
+      // Replace the loading placeholder with the actual AI response
+      setMessages((prev) => 
+        prev.map((msg, index) =>
+          index === prev.length - 1 ? { ...msg, message: response } : msg
+        )
+      );
+    },
+    onError: () => {
+      // Handle the case of an error (replace the loading with an error message)
+      setMessages((prev) => 
+        prev.map((msg, index) =>
+          index === prev.length - 1 ? { ...msg, message: 'Error fetching response' } : msg
+        )
+      );
     },
   });
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,19 +55,28 @@ const Chat = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-6rem)] grid grid-rows-[1fr,auto]">
-      <div>
-        <h2 className="text-5xl">messages</h2>
-        <div className="mt-4 py-2">
-          {messages?.map((msg, index) => (
-            <div key={index} className={`message ${msg.role ? " border-b border-dashed border-gray-300" : ""} mt-2 `}>
-              <strong>{msg.role === "USER" ? "You: " : "Bot: "}</strong>
-              {msg.message}
-            </div>
-          ))}
+    <div className="min-h-[calc(100vh-6rem)] grid grid-rows-[1fr,auto] max-w-5xl">
+ <div className="flex-grow overflow-y-auto space-y-4 p-4">
+      <h2 className="text-3xl font-bold text-center mb-4 text-primary">Chat</h2>
+      {messages?.map((msg, index) => (
+        <div
+          key={index}
+          className={`flex ${msg.role === "USER" ? "justify-end" : "justify-start"}`}
+        >
+          <div
+            className={`p-3 rounded-2xl shadow-md ${
+              msg.role !== "USER"
+                ? "bg-primary text-black"
+                : "bg-gray-200 text-info-content"
+            }`}
+          >
+            <strong className="border-b border-dashed text-base-900">{msg.role === "USER" ? "You: " : "AI: "}</strong>
+            <p className="mt-1">{msg.message}</p>
+          </div>
         </div>
-      </div>
-      <form onSubmit={handleSubmit} className="max-w-4xl pt-12">
+      ))}
+    </div>
+      <form onSubmit={handleSubmit} className="max-w-5xl pt-12">
         <div className="join w-full">
           <input
             type="text"
