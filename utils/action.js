@@ -3,27 +3,20 @@
 import { CohereClient } from "cohere-ai";
 import { HfInference } from "@huggingface/inference";
 
-const HF_TOKEN = "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";
+const HF_TOKEN = process.env.HUGGIN_FACE_API_KEY;
 
 const inference = new HfInference(HF_TOKEN);
-
 
 // Generate Image
 const adjustToNearestMultipleOf8 = (value) => {
   return Math.round(value / 8) * 8;
 };
 
-export const generateImage = async ({
-  description,
-  model,
-  height,
-  width,
-  guidanceScale,
-}) => {
+export const generateImage = async ({ description, model, height, width, guidanceScale }) => {
   try {
     const adjustedHeight = adjustToNearestMultipleOf8(height);
     const adjustedWidth = adjustToNearestMultipleOf8(width);
-    
+
     console.log({ description, model, adjustedHeight, adjustedWidth, guidanceScale });
     const response = await inference.textToImage({
       model: model, // animation
@@ -55,7 +48,7 @@ export const generateCohereChatResponse = async (chatMsg) => {
   console.log(chatMsg);
   try {
     const cohere = new CohereClient({
-      token: "LxwSK2MvDM6o0aLnZH73VIFdcZmD70j5ieVQfImD",
+      token: process.env.COHERE_API_KEY,
     });
 
     const chatRes = await cohere.chat({
@@ -68,4 +61,3 @@ export const generateCohereChatResponse = async (chatMsg) => {
     console.log(error);
   }
 };
-
