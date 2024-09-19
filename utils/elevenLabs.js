@@ -2,7 +2,7 @@
 
 // utils/elevenLabs.js
 
-import { ElevenLabsClient, play, stream } from "elevenlabs";
+import { ElevenLabsClient, play } from "elevenlabs";
 
 // Initialize the ElevenLabs client
 const client = new ElevenLabsClient({
@@ -13,7 +13,7 @@ const client = new ElevenLabsClient({
 export const generateSpeech = async (text, voice) => {
   try {
     const audio = await client.generate({
-      stream: true,
+      // stream: true,
       voice: "Rachel",
       text: text,
       model_id: "eleven_multilingual_v2",
