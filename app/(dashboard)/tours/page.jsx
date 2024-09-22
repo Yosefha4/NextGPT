@@ -1,7 +1,8 @@
+import Tour from "@/components/Tour";
 import React from "react";
 
 const ToursPage = () => {
-  return <div>Tours</div>;
+  return <Tour />;
 };
 
 export default ToursPage;

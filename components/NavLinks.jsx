@@ -5,7 +5,7 @@ const links = [
   { href: "/image-generator", label: "Image Gen" },
   { href: "/voice-generator", label: "Text To Speech" },
   { href: "/tours", label: "tours" },
-  { href: "/tours/new-tour", label: "new tour" },
+  // { href: "/tours/new-tour", label: "new tour" },
   { href: "/profile", label: "profile" },
 ];
 const NavLinks = ({ currentPath }) => {
@@ -15,7 +15,7 @@ const NavLinks = ({ currentPath }) => {
         const isActive = currentPath === link.href;
         return (
           <li key={link.href} className="text-xl mb-2">
-            <Link href={link.href} className={`capitalize ${isActive ? "bg-base-200 font-bold" : ""}`}>
+            <Link href={link.href} className={`capitalize ${isActive ? "bg-primary font-bold text-white" : ""}`}>
               {link.label}
             </Link>
           </li>

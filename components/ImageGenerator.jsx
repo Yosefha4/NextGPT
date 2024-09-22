@@ -23,7 +23,6 @@ const ImageGenerator = () => {
       width,
       guidanceScale,
     });
-    console.log(image);
     if (image) {
       setGeneratedImage(image);
     }

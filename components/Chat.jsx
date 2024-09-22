@@ -11,10 +11,6 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // const { mutate } = useMutation({
-  //   mutationFn: (message) => generateCohereChatResponse(message),
-  // });
-
   const { mutate } = useMutation({
     mutationFn: async (message) => {
       const response = await generateCohereChatResponse(message);
