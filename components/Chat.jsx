@@ -53,7 +53,7 @@ const Chat = () => {
   return (
     <div className="min-h-[calc(100vh-6rem)] grid grid-rows-[1fr,auto] max-w-5xl">
       <div className="flex-grow overflow-y-auto space-y-4 p-4">
-        <h2 className="text-3xl font-bold text-center mb-4 text-primary">Chat</h2>
+        <h2 className="text-3xl font-bold text-center mb-4 text-primary">Next Chat</h2>
         {messages?.map((msg, index) => (
           <div key={index} className={`flex ${msg.role === "USER" ? "justify-end" : "justify-start"}`}>
             <div

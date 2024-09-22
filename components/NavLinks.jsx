@@ -8,13 +8,14 @@ const links = [
   { href: "/tours/new-tour", label: "new tour" },
   { href: "/profile", label: "profile" },
 ];
-const NavLinks = () => {
+const NavLinks = ({ currentPath }) => {
   return (
     <ul className="menu text-base-content">
       {links.map((link) => {
+        const isActive = currentPath === link.href;
         return (
           <li key={link.href} className="text-xl mb-2">
-            <Link href={link.href} className="capitalize">
+            <Link href={link.href} className={`capitalize ${isActive ? "bg-base-200 font-bold" : ""}`}>
               {link.label}
             </Link>
           </li>

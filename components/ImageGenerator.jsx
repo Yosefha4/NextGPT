@@ -14,18 +14,18 @@ const ImageGenerator = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setGeneratedImage(null); 
+    setGeneratedImage(null);
 
     const image = await generateImage({
       description: textInput,
       model: selectedModel,
       height,
       width,
-      guidanceScale
+      guidanceScale,
     });
     console.log(image);
     if (image) {
-      setGeneratedImage(image); 
+      setGeneratedImage(image);
     }
     setLoading(false);
     setTextInput("");
@@ -33,25 +33,20 @@ const ImageGenerator = () => {
 
   const handleDownload = () => {
     if (generatedImage) {
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = generatedImage;
-      link.download = 'generated-image.png'; // Default filename
+      link.download = "generated-image.png"; // Default filename
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     }
   };
 
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-base-200">
       <div className="max-w-3xl w-full p-8 bg-white shadow-lg rounded-lg">
-        <h1 className="text-4xl font-bold text-center mb-4 text-primary">
-          AI Image Generator
-        </h1>
-        <p className="text-center text-gray-700 mb-6">
-          Enter a text description and let AI create an amazing image for you!
-        </p>
+        <h1 className="text-4xl font-bold text-center mb-4 text-primary">AI Image Generator</h1>
+        <p className="text-center text-gray-700 mb-6">Enter a text description and let AI create an amazing image for you!</p>
 
         <form onSubmit={handleSubmit} className="w-full">
           {/* Prompt Input */}
@@ -133,7 +128,8 @@ const ImageGenerator = () => {
 
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-purple-500 to-blue-500 text-white py-2 px-4 rounded-lg font-semibold hover:opacity-90 transition-opacity"
+            className="w-full bg-primary text-white py-2 px-4 rounded-lg font-semibold hover:opacity-90 transition-opacity"
+            disabled={loading}
           >
             Generate Image
           </button>
@@ -149,14 +145,8 @@ const ImageGenerator = () => {
         {/* Generated Image */}
         {generatedImage && (
           <div className="mt-6 text-center">
-            <h2 className="text-2xl font-semibold text-gray-700 mb-2">
-              Generated Image:
-            </h2>
-            <img
-              src={generatedImage}
-              alt="Generated"
-              className="rounded-lg shadow-lg mx-auto w-full h-auto mb-4"
-            />
+            <h2 className="text-2xl font-semibold text-gray-700 mb-2">Generated Image:</h2>
+            <img src={generatedImage} alt="Generated" className="rounded-lg shadow-lg mx-auto w-full h-auto mb-4" />
             <button
               onClick={handleDownload}
               className="bg-gradient-to-r from-green-400 to-blue-500 text-white py-2 px-4 rounded-lg font-semibold hover:opacity-90 transition-opacity"
