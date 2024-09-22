@@ -1,4 +1,3 @@
-import NavLayout from "@/components/NavLayout";
 import Sidebar from "@/components/Sidebar";
 import { FaBarsStaggered } from "react-icons/fa6";
 
