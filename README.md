@@ -1,3 +1,10 @@
+NEXT GPT 
+
+ ![nextGpt1](https://github.com/user-attachments/assets/20bfb8a1-94a2-419f-b544-cceb313504ff)
+
+![image](https://github.com/user-attachments/assets/39c4cff6-9d0b-4273-98fd-d1c4b872a4ec)
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
