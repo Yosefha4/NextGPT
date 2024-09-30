@@ -56,7 +56,7 @@ const Chat = () => {
               className={`p-3 rounded-2xl shadow-md ${
                 msg.role !== "USER" ? "bg-primary text-black" : "bg-gray-200 text-info-content"
               }`}
-            >
+            > 
               <strong className="border-b border-dashed border-black text-base-900">
                 {msg.role === "USER" ? "You: " : "AI: "}
               </strong>
