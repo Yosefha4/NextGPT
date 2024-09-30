@@ -42,7 +42,8 @@ const ImageGenerator = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-base-200">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-base-200 opacity-55">
+      <p className="absolute text-red-500 text-9xl">SOON</p>
       <div className="max-w-3xl w-full p-8 bg-white shadow-lg rounded-lg">
         <h1 className="text-4xl font-bold text-center mb-4 text-primary">AI Image Generator</h1>
         <p className="text-center text-gray-700 mb-6">Enter a text description and let AI create an amazing image for you!</p>
@@ -128,7 +129,8 @@ const ImageGenerator = () => {
           <button
             type="submit"
             className="w-full bg-primary text-white py-2 px-4 rounded-lg font-semibold hover:opacity-90 transition-opacity"
-            disabled={loading}
+            disabled
+            // disabled={loading}
           >
             Generate Image
           </button>

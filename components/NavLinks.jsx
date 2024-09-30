@@ -14,7 +14,7 @@ const NavLinks = ({ currentPath }) => {
       {links.map((link) => {
         const isActive = currentPath === link.href;
         return (
-          <li key={link.href} className="text-xl mb-2">
+          <li key={link.href} className="text-xl mb-2" >
             <Link href={link.href} className={`capitalize ${isActive ? "bg-primary font-bold text-white" : ""}`}>
               {link.label}
             </Link>
